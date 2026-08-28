@@ -1,4 +1,4 @@
-# 混音输出目录
+﻿# 混音输出目录
 output/
 
 # Python
@@ -18,3 +18,7 @@ build/
 # 系统文件
 Thumbs.db
 .DS_Store
+
+# 未跟踪产物/输出治理（2026-08-28）
+bin/
+release/
