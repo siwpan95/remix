@@ -1,6 +1,6 @@
 ---
 name: remix-audio
-description: Maintain remix audio mixer (G:/tools/audio/remix). pydub-based mixing and video audio composition.
+description: Maintain remix audio mixer (repository root). pydub-based mixing and video audio composition.
 agent_created: true
 ---
 
