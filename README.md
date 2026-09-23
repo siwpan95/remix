@@ -1,5 +1,7 @@
 # Remix — 音频混音 & 视频合成
 
+> 仓库：<https://gitee.com/siwpan/remix> ｜ 许可：MIT（见 [LICENSE](LICENSE)）
+
 一个用 Python + pydub 实现的桌面音频混音器与视频音频合成工具。
 支持多轨混音、分轨增益、软/硬削波、峰值/RMS 归一化、淡入淡出、
 交叉淡化、动态压缩、高低通滤波，以及视频音频提取/替换/混入。
