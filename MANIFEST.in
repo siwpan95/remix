@@ -1,0 +1,14 @@
+prune .venv
+prune dist
+prune build
+prune release
+prune __pycache__
+prune bin
+prune output
+prune logs
+prune .pytest_cache
+global-exclude *.pyc
+global-exclude *.mp3
+global-exclude *.flac
+global-exclude *.exe
+global-exclude *.json

@@ -12,15 +12,25 @@ import sys
 # =========================================================================
 _PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 _BIN_DIR = os.path.join(_PROJECT_ROOT, "bin")
-os.environ["PATH"] = _BIN_DIR + os.pathsep + os.environ.get("PATH", "")
+# 仅当项目内置 bin/ 存在时才加入 PATH（源码模式带 ffmpeg.exe；
+# PyPI 安装的包内不含 bin/，跳过，转而走系统 PATH 自发现）
+if os.path.isdir(_BIN_DIR):
+    os.environ["PATH"] = _BIN_DIR + os.pathsep + os.environ.get("PATH", "")
 
-import pydub  # noqa: E402
-
+# 内置 ffmpeg / ffprobe 路径（仅源码模式存在；PyPI 包内不含二进制）
 _BUNDLED_FFMPEG = os.path.join(_BIN_DIR, "ffmpeg.exe" if sys.platform == "win32" else "ffmpeg")
 _BUNDLED_FFPROBE = os.path.join(_BIN_DIR, "ffprobe.exe" if sys.platform == "win32" else "ffprobe")
 
-pydub.AudioSegment.converter = _BUNDLED_FFMPEG
-pydub.AudioSegment.ffprobe = _BUNDLED_FFPROBE
+import pydub  # noqa: E402
+
+# ffmpeg / ffprobe 运行时自发现：优先系统 PATH 或项目内置 bin/（仅源码模式），
+# 找不到时保留 pydub 默认查找，真正缺依赖时由 core.video_processor 抛出明确错误。
+try:
+    from core.video_processor import VideoProcessor
+    pydub.AudioSegment.converter = VideoProcessor._find_ffmpeg()
+    pydub.AudioSegment.ffprobe = VideoProcessor._find_ffprobe()
+except Exception:
+    pass
 
 # =========================================================================
 # 依赖检查（在创建 tk 窗口前完成）
